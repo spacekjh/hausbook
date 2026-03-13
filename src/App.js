@@ -275,7 +275,7 @@ export default function App() {
         <div style={{ background:"#fff", borderRadius:12, boxShadow:"0 2px 16px rgba(0,0,0,0.1)", overflow:"hidden" }}>
 
           {/* 컬럼 헤더 */}
-          <div style={{ display:"grid", gridTemplateColumns:gridTemplate, background:"#1e3a8a", color:"#fff", fontSize:12, fontWeight:700, position:"sticky", top:57, zIndex:10 }}>
+          <div style={{ display:"grid", gridTemplateColumns:gridTemplate, background:"#1e3a8a", color:"#fff", fontSize:12, fontWeight:700, position:"sticky", top:0, zIndex:10 }}>
             {["날짜","요일","NO","적요","지출(선택)","지출(필수)","구분","계",""].map(function(h,i){
               return <div key={i} style={{ padding:"10px 8px", textAlign:i>=4&&i<=7?"right":"center", borderRight:i<8?"1px solid rgba(255,255,255,0.15)":"none" }}>{h}</div>;
             })}
