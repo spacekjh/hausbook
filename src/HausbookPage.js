@@ -157,7 +157,8 @@ export default function HausbookPage(props) {
     });
   }
   function addNewRow() {
-    setNewRows(function(prev){ return prev.concat([emptyRow(ym + "-" + String(now.getDate()).padStart(2,"0"))]); });
+    var today = new Date();
+    setNewRows(function(prev){ return prev.concat([emptyRow(ym + "-" + String(today.getDate()).padStart(2,"0"))]); });
   }
   async function saveNewRow(idx) {
     var nr = newRows[idx];
