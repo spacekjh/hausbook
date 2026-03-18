@@ -228,7 +228,7 @@ export default function HausbookPage(props) {
 
   // PC: NO 컬럼 포함 / 모바일: NO 컬럼 제외, 날짜 MM-DD 형식
   var pcGrid   = "100px 52px 46px 1fr 118px 118px 108px 118px 88px";
-  var mobileGrid = "70px 36px 1fr 80px 80px 80px 80px 60px";
+  var mobileGrid = "52px 30px 1fr 72px 72px 72px 72px";
 
   var gridTemplate = mobile ? mobileGrid : pcGrid;
 
@@ -258,7 +258,7 @@ export default function HausbookPage(props) {
 
   // 컬럼 헤더 - 모바일은 NO 제외
   var pcHeaders   = ["날짜","요일","NO","적요","지출(선택)","지출(필수)","구분","계",""];
-  var mobileHeaders = ["날짜","요일","적요","지출(선택)","지출(필수)","구분","계",""];
+  var mobileHeaders = ["날짜","요일","적요","지출(선택)","지출(필수)","구분","계"];
 
   var colHeaders = mobile ? mobileHeaders : pcHeaders;
 
@@ -328,17 +328,22 @@ export default function HausbookPage(props) {
             {CATEGORIES.map(function(c){ return <option key={c} value={c}>{c}</option>; })}
           </select>
         </div>
-        {/* 계 */}
-        <div style={{ borderRight:"1px solid #e2e8f0", display:"flex", alignItems:"center", justifyContent:"flex-end", paddingRight: mobile?4:8 }}>
+        {/* 계 - 모바일은 클릭시 저장/삭제 메뉴 */}
+        <div onClick={mobile && hasDirty ? function(){ saveRow(row); } : mobile ? function(){ setDeleteTarget(row); } : undefined}
+          style={{ borderRight: mobile?"none":"1px solid #e2e8f0", display:"flex", alignItems:"center", justifyContent:"flex-end", paddingRight: mobile?6:8, cursor: mobile?"pointer":"default" }}>
           <span style={{ fontSize: mobile?11:13, fontWeight:700 }}>{formatNum(row.total)}</span>
+          {mobile && hasDirty && <span style={{ fontSize:9, color:"#2563eb", marginLeft:2 }}>저장</span>}
+          {mobile && !hasDirty && <span style={{ fontSize:9, color:"#ef4444", marginLeft:2 }}>삭제</span>}
         </div>
         {/* 저장/삭제 버튼 */}
+        {!mobile && (
         <div style={{ display:"flex", alignItems:"center", justifyContent:"center", gap:2 }}>
           {hasDirty && (
             <button onClick={function(){ saveRow(row); }} style={{ background:"#2563eb", border:"none", color:"#fff", borderRadius:5, padding: mobile?"2px 4px":"3px 8px", fontSize: mobile?10:11, fontWeight:700, cursor:"pointer" }}>저장</button>
           )}
           <button className="del-btn" onClick={function(){ setDeleteTarget(row); }} style={{ background:"#fef2f2", border:"none", color:"#ef4444", borderRadius:5, padding: mobile?"2px 4px":"3px 8px", fontSize: mobile?10:11, fontWeight:600, cursor:"pointer", opacity: mobile?0.6:0, transition:"opacity .15s" }}>X</button>
         </div>
+        )}
       </div>
     );
   }
@@ -395,17 +400,21 @@ export default function HausbookPage(props) {
             {CATEGORIES.map(function(c){ return <option key={c} value={c}>{c}</option>; })}
           </select>
         </div>
-        {/* 계 */}
-        <div style={{ borderRight:"1px solid #dcfce7", display:"flex", alignItems:"center", justifyContent:"flex-end", paddingRight: mobile?4:8 }}>
+        {/* 계 - 모바일은 클릭시 저장 */}
+        <div onClick={mobile ? function(){ saveNewRow(idx); } : undefined}
+          style={{ display:"flex", alignItems:"center", justifyContent:"flex-end", paddingRight: mobile?6:8, cursor: mobile?"pointer":"default" }}>
           <span style={{ fontSize: mobile?11:13, fontWeight:700, color:"#16a34a" }}>
             {(parseNum(nr.expense_opt)+parseNum(nr.expense_req)) > 0 ? formatNum(parseNum(nr.expense_opt)+parseNum(nr.expense_req)) : ""}
           </span>
+          {mobile && <span style={{ fontSize:9, color:"#16a34a", marginLeft:2 }}>저장</span>}
         </div>
         {/* 저장/삭제 버튼 */}
+        {!mobile && (
         <div style={{ display:"flex", alignItems:"center", justifyContent:"center", gap:2 }}>
           <button onClick={function(){ saveNewRow(idx); }} disabled={saving} style={{ background:"#16a34a", border:"none", color:"#fff", borderRadius:5, padding: mobile?"2px 4px":"3px 8px", fontSize: mobile?10:11, fontWeight:700, cursor:"pointer", opacity:saving?0.6:1 }}>저장</button>
           <button onClick={function(){ removeNewRow(idx); }} style={{ background:"#fee2e2", border:"none", color:"#ef4444", borderRadius:5, padding: mobile?"2px 4px":"3px 8px", fontSize: mobile?10:11, cursor:"pointer" }}>X</button>
         </div>
+        )}
       </div>
     );
   }
