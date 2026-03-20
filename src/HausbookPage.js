@@ -273,15 +273,23 @@ export default function HausbookPage(props) {
     return (
       <div key={rk} className="srow" style={{ display:"grid", gridTemplateColumns:gridTemplate, background:isEven?"#fff":"#f8fafc", borderBottom:"1px solid #e2e8f0", height:rowHeight, alignItems:"stretch", transition:"background .1s" }}>
         {/* 날짜 */}
-        <div style={{ borderRight:"1px solid #e2e8f0", display:"flex", alignItems:"center", paddingLeft:4, fontSize: mobile?11:12 }}>
+        <div style={{ borderRight:"1px solid #e2e8f0", display:"flex", alignItems:"center", paddingLeft:4 }}>
           {mobile ? (
             <span style={{ fontSize:11, color:"#1e293b" }}>{formatDate(row.date)}</span>
-          ) : (
+          ) : activeCell && activeCell.key===rk && activeCell.col==="date" ? (
             <input ref={function(el){ inputRefs.current[rk+"_date"]=el; }} type="date" value={getCellVal(row,"date")}
               onChange={function(e){ setCellVal(row,"date",e.target.value); }}
               onFocus={function(){ setActiveCell({key:rk,col:"date"}); }} onBlur={function(){ setActiveCell(null); }}
               onKeyDown={function(e){ handleKeyDown(e,rk,"date",function(){ saveRow(row); }); }}
-              style={Object.assign({},inputSt(activeCell&&activeCell.key===rk&&activeCell.col==="date",isDirty(row,"date")),{fontSize:12})}/>
+              style={Object.assign({},inputSt(true,isDirty(row,"date")),{fontSize:12})}/>
+          ) : (
+            <span onClick={function(){ setActiveCell({key:rk,col:"date"}); setTimeout(function(){ if(inputRefs.current[rk+"_date"]) inputRefs.current[rk+"_date"].focus(); },50); }}
+              style={{ fontSize:12, padding:"0 4px", cursor:"pointer", color:"#1e293b", width:"100%",
+                background: isDirty(row,"date") ? "#fffbeb" : "transparent",
+                display:"flex", alignItems:"center", justifyContent:"space-between" }}>
+              {getCellVal(row,"date").replace(/-/g,".")}
+              <span style={{ fontSize:11, color:"#94a3b8" }}>&#128197;</span>
+            </span>
           )}
         </div>
         {/* 요일 */}
@@ -358,7 +366,7 @@ export default function HausbookPage(props) {
           <input type="date" value={nr.date} ref={function(el){ inputRefs.current["new_"+idx+"_date"]=el; }}
             onChange={function(e){ setNewRowVal(idx,"date",e.target.value); }}
             onKeyDown={function(e){ handleKeyDown(e,"new_"+idx,"date",null); }}
-            style={Object.assign({},inputSt(false,false),{fontSize: mobile?10:12, background:"transparent"})}/>
+            style={Object.assign({},inputSt(false,false),{fontSize: mobile?10:11, background:"transparent", letterSpacing:"-0.5px"})}/>
         </div>
         {/* 요일 */}
         <div style={{ borderRight:"1px solid #dcfce7", display:"flex", alignItems:"center", justifyContent:"center" }}>
