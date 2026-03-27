@@ -1,6 +1,7 @@
 import { useState } from "react";
 import LoginPage from "./LoginPage";
 import HausbookPage from "./HausbookPage";
+import StatsPage from "./StatsPage";
 
 const SUPABASE_URL = "https://xmfynndokdelrqodibhi.supabase.co";
 const SUPABASE_KEY = "sb_publishable__Oqv33sP_B9ysl08xJ_SNQ_z8MuTwIU";
@@ -18,9 +19,11 @@ async function apiLogout(token) {
 
 export default function App() {
   var [session, setSession] = useState(null);
+  var [page, setPage] = useState("hausbook"); // "hausbook" | "stats"
 
   function handleLogin(data) {
     setSession(data);
+    setPage("hausbook");
   }
 
   async function handleLogout() {
@@ -28,10 +31,14 @@ export default function App() {
       await apiLogout(session.access_token);
     }
     setSession(null);
+    setPage("hausbook");
   }
 
   if (!session) {
     return <LoginPage onLogin={handleLogin} />;
   }
-  return <HausbookPage onLogout={handleLogout} />;
+  if (page === "stats") {
+    return <StatsPage onBack={function(){ setPage("hausbook"); }} onLogout={handleLogout} />;
+  }
+  return <HausbookPage onLogout={handleLogout} onStats={function(){ setPage("stats"); }} />;
 }

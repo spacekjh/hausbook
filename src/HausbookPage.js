@@ -440,26 +440,33 @@ export default function HausbookPage(props) {
       {/* 헤더 */}
       <div style={{ background:"linear-gradient(135deg,#1e3a8a,#2563eb)", color:"#fff", padding: mobile?"10px 12px":"14px 16px", boxShadow:"0 2px 12px rgba(37,99,235,0.4)" }}>
         <div style={{ maxWidth:1100, margin:"0 auto" }}>
-          {/* 1행: 타이틀 + 로그아웃 */}
+          {/* 1행: 월 네비게이션(왼쪽) + 타이틀(가운데) + 통계/로그아웃(오른쪽) */}
           <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom: mobile?6:8 }}>
-            <span style={{ fontSize: mobile?16:20, fontWeight:900 }}>가계부</span>
-            <button onClick={props.onLogout} style={{
-              background:"rgba(255,255,255,0.15)", border:"1px solid rgba(255,255,255,0.3)",
-              color:"#fff", borderRadius:8, padding:"5px 12px", fontSize:12, fontWeight:600, cursor:"pointer"
-            }}>로그아웃</button>
-          </div>
-          {/* 2행: 월 네비게이션 + 합계 */}
-          <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", flexWrap:"wrap", gap:6 }}>
+            {/* 월 네비게이션 */}
             <div style={{ display:"flex", alignItems:"center", background:"rgba(255,255,255,0.12)", borderRadius:12, padding:"2px" }}>
               <button onClick={prevMonth} style={{ background:"none", border:"none", color:"#fff", fontSize:14, cursor:"pointer", padding:"4px 10px", borderRadius:10 }}>{"<"}</button>
               <span style={{ fontSize: mobile?14:16, fontWeight:800, minWidth: mobile?90:110, textAlign:"center" }}>{year}년 {MONTHS[month]}</span>
               <button onClick={nextMonth} style={{ background:"none", border:"none", color:"#fff", fontSize:14, cursor:"pointer", padding:"4px 10px", borderRadius:10 }}>{">"}</button>
             </div>
-            <div style={{ display:"flex", gap: mobile?10:16, fontSize: mobile?11:13 }}>
-              <span>선택 <b style={{ color:"#fbbf24" }}>{formatNum(totalOpt)}</b></span>
-              <span>필수 <b style={{ color:"#fca5a5" }}>{formatNum(totalReq)}</b></span>
-              <span>합계 <b style={{ color:"#fff", fontSize: mobile?13:15 }}>{formatNum(totalAll)}</b></span>
+            {/* 타이틀 가운데 */}
+            <span style={{ fontSize: mobile?16:20, fontWeight:900, position:"absolute", left:"50%", transform:"translateX(-50%)" }}>가계부</span>
+            {/* 통계 + 로그아웃 버튼 */}
+            <div style={{ display:"flex", alignItems:"center", gap:8 }}>
+              <button onClick={props.onStats} style={{
+                background:"rgba(255,255,255,0.15)", border:"1px solid rgba(255,255,255,0.3)",
+                color:"#fff", borderRadius:8, padding:"5px 12px", fontSize:12, fontWeight:600, cursor:"pointer"
+              }}>통계</button>
+              <button onClick={props.onLogout} style={{
+                background:"rgba(255,255,255,0.15)", border:"1px solid rgba(255,255,255,0.3)",
+                color:"#fff", borderRadius:8, padding:"5px 12px", fontSize:12, fontWeight:600, cursor:"pointer"
+              }}>로그아웃</button>
             </div>
+          </div>
+          {/* 2행: 합계 */}
+          <div style={{ display:"flex", alignItems:"center", justifyContent:"center", gap: mobile?10:16, fontSize: mobile?11:13 }}>
+            <span>선택 <b style={{ color:"#fbbf24" }}>{formatNum(totalOpt)}</b></span>
+            <span>필수 <b style={{ color:"#fca5a5" }}>{formatNum(totalReq)}</b></span>
+            <span>합계 <b style={{ color:"#fff", fontSize: mobile?13:15 }}>{formatNum(totalAll)}</b></span>
           </div>
         </div>
       </div>
