@@ -176,14 +176,15 @@ export default function StatsPage(props) {
             <div style={{ background:"#fff", borderRadius:12, boxShadow:"0 2px 16px rgba(0,0,0,0.08)", padding:"20px 16px", marginBottom:16 }}>
               <div style={{ fontSize:15, fontWeight:800, color:"#1e3a8a", marginBottom:16 }}>월별 지출 추이</div>
               <ResponsiveContainer width="100%" height={300}>
-                <BarChart data={monthlyData} margin={{ top:5, right:20, left:20, bottom:5 }}>
+                <BarChart data={monthlyData} margin={{ top:5, right:20, left:20, bottom:5 }} barCategoryGap="30%">
                   <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
                   <XAxis dataKey="month" tick={{ fontSize:12 }} />
                   <YAxis tickFormatter={function(v){ return (v/10000) + "만"; }} tick={{ fontSize:11 }} />
                   <Tooltip content={<CustomTooltip />} />
                   <Legend wrapperStyle={{ fontSize:12 }} />
-                  <Bar dataKey="지출(선택)" fill="#d97706" radius={[4,4,0,0]} />
-                  <Bar dataKey="지출(필수)" fill="#dc2626" radius={[4,4,0,0]} />
+                  <Bar dataKey="지출(선택)" fill="#86efac" radius={[4,4,0,0]} barSize={14} />
+                  <Bar dataKey="지출(필수)" fill="#7dd3fc" radius={[4,4,0,0]} barSize={14} />
+                  <Bar dataKey="합계" fill="#1e3a8a" radius={[4,4,0,0]} barSize={14} />
                 </BarChart>
               </ResponsiveContainer>
             </div>
